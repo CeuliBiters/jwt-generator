@@ -1,12 +1,12 @@
 <?php
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-require_once('../plugins/JWT-Framework/vendor/autoload.php'); //composer require web-token/jwt-framework
+require_once('../../plugins/JWT-Framework/vendor/autoload.php'); //composer require web-token/jwt-framework
 
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Easy\Build;
 use Jose\Easy\Load;
 
-
+echo "<h1>JSON Web Signature (JWS)</h1>";
 /* Pembangkit Kunci Signatur */
 $private_key = JWKFactory::createOCTKey(
     4096, // Size in bits of the key. We recommend at least 2048 bits.
@@ -16,8 +16,8 @@ $private_key = JWKFactory::createOCTKey(
         'kid' => "test",
     ]
 );
-
-echo json_encode($private_key);
+echo "<h2>Private Key</h2>";
+echo "<pre>". json_encode($private_key, JSON_PRETTY_PRINT). "</pre>";
 echo "<br> <br>";
 
 $time = time(); // The current time
@@ -38,11 +38,13 @@ $jws = Build::jws() // We build a JWS
     ->header('prefs', ['field1', 'field7'])
     ->sign($private_key) // Compute the token with the given JWK
 ;
+echo "<h2>JWS Token</h2>";
 echo $jws; // The variable $jws now contains your token
 echo "<br> <br>";
 
 $public_key = $private_key->toPublic(); //get public key
-echo json_encode($public_key);
+echo "<h2>Public Key</h2>";
+echo "<pre>".json_encode($public_key, JSON_PRETTY_PRINT). "</pre>";
 echo "<br> <br>";
 
 /* memverivikasi signature token dan membaca isi token */
@@ -58,14 +60,18 @@ $jwt = Load::jws($jws) // We want to load and verify the token in the variable $
     ->key($public_key) // Key used to verify the signature
     ->run() // Go!
 ;
-echo json_encode($jwt->header->all());
+
+echo "<h2>JWS header</h2>";
+echo "<pre>" . json_encode($jwt->header->all(), JSON_PRETTY_PRINT) . "</pre>";
 echo "<br> <br>";
-echo json_encode($jwt->claims->all());
+echo "<h2>JWS claims</h2>";
+echo "<pre>" . json_encode($jwt->claims->all(), JSON_PRETTY_PRINT) . "</pre>";
 echo "<br> <br>";
 echo "<br> <br>";
 echo "<br> <br>";
 
 
+echo "<h1>JSON Web Encryption (JWE)</h1>";
 /* Pembangkit Kunci Enkripsi   */
 $private_key = JWKFactory::createRSAKey(
     4096, // Size in bits of the key. We recommend at least 2048 bits.
@@ -76,6 +82,10 @@ $private_key = JWKFactory::createRSAKey(
 );
 $public_key = $private_key->toPublic();
 $time = time(); // The current time
+
+echo "<h2>Public Key</h2>";
+echo "<pre>" . json_encode($public_key, JSON_PRETTY_PRINT) . "</pre>";
+echo "<br> <br>";
 
 /* membuat token enkripsi */
 $jwe = Build::jwe() // We build a JWE
@@ -101,10 +111,13 @@ $jwe = Build::jwe() // We build a JWE
     ->crit(['alg', 'enc']) // We mark some header parameters as critical
     ->encrypt($public_key) // Compute the token with the given JWK (public key)
 ;
+echo "<h2>JWE Token</h2>";
 echo $jwe;
 echo "<br> <br>";
 
-
+echo "<h2>Private Key</h2>";
+echo "<pre>" . json_encode($private_key, JSON_PRETTY_PRINT) . "</pre>";
+echo "<br> <br>";
 /* mendekripsi token dan membaca isi token */
 $jwt = Load::jwe($jwe) // We want to load and decrypt the token in the variable $token
     ->algs(['RSA-OAEP-256', 'RSA-OAEP']) // The key encryption algorithms allowed to be used
@@ -119,6 +132,8 @@ $jwt = Load::jwe($jwe) // We want to load and decrypt the token in the variable 
     ->key($private_key) // Key used to decrypt the token
     ->run() // Go!
 ;
-echo json_encode($jwt->header->all());
+echo "<h2>JWE header</h2>";
+echo "<pre>" . json_encode($jwt->header->all(), JSON_PRETTY_PRINT) . "</pre>";
 echo "<br> <br>";
-echo json_encode($jwt->claims->all());
+echo "<h2>JWE claims</h2>";
+echo "<pre>" . json_encode($jwt->claims->all(), JSON_PRETTY_PRINT) . "</pre>";
