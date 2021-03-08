@@ -248,4 +248,13 @@ $jwt = Load::jwe($token) // We want to load and decrypt the token in the variabl
 ;
 ```
 
+# Referensi 
+
+[https://web-token.spomky-labs.com/the-easy-way/easy](https://web-token.spomky-labs.com/the-easy-way/easy)
+
+[https://web-token.spomky-labs.com/the-components/encrypted-tokens-jwe/encryption-algorithms](https://web-token.spomky-labs.com/the-components/encrypted-tokens-jwe/encryption-algorithms)
+
+[https://web-token.spomky-labs.com/the-components/signed-tokens-jws/signature-algorithms](https://web-token.spomky-labs.com/the-components/signed-tokens-jws/signature-algorithms)
+
+[https://web-token.spomky-labs.com/the-components/key-jwk-and-key-set-jwkset/key-management](https://web-token.spomky-labs.com/the-components/key-jwk-and-key-set-jwkset/key-management)
 
