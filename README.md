@@ -1,6 +1,6 @@
 # Cara Penggunaan
 
-## 1. install composer dan jalankan `composer require web-token/jwt-framework` pada direktori yang di inginkan
+## 1. install composer dan jalankan `composer require web-token/jwt-framework` pada direktori yang di inginkan menggunakan Command Prompt/Terminal
 
 **contoh**
 
