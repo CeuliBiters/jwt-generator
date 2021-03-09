@@ -1,4 +1,4 @@
-# Cara Penggunaan
+# Cara Penggunaan (Windows-Xampp)
 
 ## 1. install composer dan jalankan `composer require web-token/jwt-framework` pada direktori yang di inginkan menggunakan Command Prompt/Terminal
 
@@ -10,7 +10,7 @@ C:\htdocs\plugins\JWT-Framework> composer require web-token/jwt-framework
 
 ## 2. gunakan `require_once('JWT-Framework/vendor/autoload.php');` untuk memanggil library yang sudah diatur menggunakan `namespace`
 
-## 3. gunakan `use Jose\Component\KeyManagement\JWKFactory;` untuk membangkitkan kunci
+## 3. gunakan `use Jose\Component\KeyManagement\JWKFactory;` untuk membangkitkan kunci \*
 
 ### **Octet String**
 
@@ -164,6 +164,8 @@ $private_key = JWKFactory::createFromCertificateFile(
 ```php
 $public_key = $private_key->toPublic();
 ```
+
+\* jika ketika membangkitkan kunci terjadi error pada fungsi openssl `openssl_pkey_new()`, atur pada **System Environment Variables** dan pada system variables, tambahkan variable **OPENSSL_CONF** dengan value **path_to\xampp\php\extras\openssl\openssl.cnf**
 
 ## 4. Gunakan `use Jose\Easy\Build;` untuk membangkitkan token dengan menggukakan key yang telah dibuat sebelumnya
 
